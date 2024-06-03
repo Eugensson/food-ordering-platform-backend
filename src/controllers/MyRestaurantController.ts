@@ -1,18 +1,22 @@
-import { Request, Response } from "express";
-import Restaurant from "../models/restaurant";
-import cloudinary from "cloudinary";
 import mongoose from "mongoose";
+import cloudinary from "cloudinary";
+import { Request, Response } from "express";
+
 import Order from "../models/order";
+import Restaurant from "../models/restaurant";
 
 const getMyRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurant = await Restaurant.findOne({ user: req.userId });
+
     if (!restaurant) {
       return res.status(404).json({ message: "restaurant not found" });
     }
+
     res.json(restaurant);
   } catch (error) {
     console.log("error", error);
+
     res.status(500).json({ message: "Error fetching restaurant" });
   }
 };
